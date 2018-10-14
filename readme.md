@@ -7,16 +7,16 @@
 ## Getting Started
 
 1. Download & Install Dependencies
-    ```
+    ```sh
     # clone it
-    git clone git@github.com:kylealwyn/apollo-typescript-starter.git
-    cd apollo-typescript-starter
+    $ git clone git@github.com:kylealwyn/apollo-typescript-starter.git
+    $ cd apollo-typescript-starter
 
     # Make it your own
-    rm -rf .git && git init
+    $ rm -rf .git && git init
 
     # Install dependencies
-    npm install
+    $ npm install
     ```
 
 1. Next, ensure your local Postgres database is up and running. Once configured, place your connection url in a `.env` file at the root of the repo. These variables will be automatically assigned to process.env when the application boots through [dotenv](https://github.com/motdotla/dotenv). Your .env file should look something like this:
@@ -27,7 +27,7 @@
 
 2. Boot the app and navigate to localhost:3000/graphiql to run a query!
 
-    ```
+    ```sh
     $ npm start
     ```
 
