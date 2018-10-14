@@ -1,6 +1,15 @@
 import db from '../database';
 
 export const typeDef = `
+  extend type Query {
+    author(firstName: String): Author!
+    authors: [Author]!
+  }
+
+  extend type Mutation {
+    createAuthor(firstName: String!, lastName: String!): Author
+  }
+
   type Author {
     id: ID!
     firstName: String
@@ -10,29 +19,18 @@ export const typeDef = `
   }
 `;
 
-export const queries = [
-  {
-    name: 'author',
-    definition: `author(firstName: String): Author!`,
-    resolve(_, { firstName = '' }) {
+export const resolvers = {
+  Query: {
+    author(_, { firstName = '' }) {
       return db
         .query('authors')
         .where({ firstName })
         .first();
     },
+    authors: () => db.query('authors'),
   },
-  {
-    name: 'authors',
-    definition: 'authors: [Author]!',
-    resolve: () => db.query('authors'),
-  },
-];
-
-export const mutations = [
-  {
-    name: 'createAuthor',
-    definition: `createAuthor(firstName: String!, lastName: String!): Author`,
-    async resolve(root, args) {
+  Mutation: {
+    async createAuthor(root, args) {
       const [author] = await db
         .query('authors')
         .insert(args)
@@ -41,9 +39,6 @@ export const mutations = [
       return author;
     },
   },
-];
-
-export const resolvers = {
   Author: {
     books(author, { limit = 100, offset = 0 }) {
       // TODO: Only query for selected fields (d.fieldNodes[0].selectionSet.selections)

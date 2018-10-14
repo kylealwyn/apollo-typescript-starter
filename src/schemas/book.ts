@@ -1,6 +1,15 @@
 import db from '../database';
 
 export const typeDef = `
+  extend type Query {
+    book(title: String): Book
+    books(limit: Int): [Book]
+  }
+
+  extend type Mutation {
+    createBook(title: String!, authorId: ID!): Book
+  }
+
   type Book {
     id: ID!
     title: String
@@ -8,34 +17,23 @@ export const typeDef = `
   }
 `;
 
-export const queries = [
-  {
-    name: 'book',
-    definition: 'book(title: String): Book',
-    resolve(root, { title = '' }) {
+export const resolvers = {
+  Query: {
+    book(root, { title = '' }) {
       return db
         .query('books')
         .where({ title })
         .first();
     },
-  },
-  {
-    name: 'books',
-    definition: 'books(limit: Int): [Book]',
-    resolve(root, { limit = 100, offset = 0 }) {
+    books(root, { limit = 100, offset = 0 }) {
       return db
         .query('books')
         .limit(limit)
         .offset(offset);
     },
   },
-];
-
-export const mutations = [
-  {
-    name: 'createBook',
-    definition: `createBook(title: String!, authorId: ID!): Book`,
-    async resolve(root, args) {
+  Mutation: {
+    async createBook(root, args) {
       const [book] = await db
         .query('books')
         .insert(args)
@@ -44,9 +42,6 @@ export const mutations = [
       return book;
     },
   },
-];
-
-export const resolvers = {
   Book: {
     author(book) {
       return db
