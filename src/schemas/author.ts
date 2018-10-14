@@ -10,24 +10,27 @@ type Author {
 }
 `;
 
-export const queries = {
-  author: {
+export const queries = [
+  {
+    name: 'author',
     definition: `author(firstName: String): Author!`,
-    resolve(root, { firstName = '' }) {
+    resolve(_, { firstName = '' }) {
       return db
         .query('authors')
         .where({ firstName })
         .first();
     },
   },
-  authors: {
+  {
+    name: 'authors',
     definition: 'authors: [Author]!',
     resolve: () => db.query('authors'),
   },
-};
+];
 
-export const mutations = {
-  createAuthor: {
+export const mutations = [
+  {
+    name: 'createAuthor',
     definition: `createAuthor(firstName: String!, lastName: String!): Author`,
     async resolve(root, args) {
       const [author] = await db
@@ -38,7 +41,7 @@ export const mutations = {
       return author;
     },
   },
-};
+];
 
 export const resolvers = {
   Author: {

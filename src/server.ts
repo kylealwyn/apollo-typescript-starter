@@ -5,10 +5,7 @@ import logger from 'morgan';
 import { ApolloServer } from 'apollo-server-express';
 import schema from './schema';
 
-const apollo = new ApolloServer({
-  schema,
-  playground: true,
-});
+const apollo = new ApolloServer({ schema });
 
 // Creates and configures an ExpressJS web server.
 class Server {

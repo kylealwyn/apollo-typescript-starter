@@ -8,8 +8,9 @@ type Book {
 }
 `;
 
-export const queries = {
-  book: {
+export const queries = [
+  {
+    name: 'book',
     definition: 'book(title: String): Book',
     resolve(root, { title = '' }) {
       return db
@@ -18,7 +19,8 @@ export const queries = {
         .first();
     },
   },
-  books: {
+  {
+    name: 'books',
     definition: 'books(limit: Int): [Book]',
     resolve(root, { limit = 100, offset = 0 }) {
       return db
@@ -27,10 +29,11 @@ export const queries = {
         .offset(offset);
     },
   },
-};
+];
 
-export const mutations = {
-  createBook: {
+export const mutations = [
+  {
+    name: 'createBook',
     definition: `createBook(title: String!, authorId: ID!): Book`,
     async resolve(root, args) {
       const [book] = await db
@@ -41,7 +44,7 @@ export const mutations = {
       return book;
     },
   },
-};
+];
 
 export const resolvers = {
   Book: {
