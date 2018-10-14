@@ -13,14 +13,14 @@ interface IQueryMutation {
 }
 
 interface ISchema {
-  type: string;
+  typeDef: string;
   queries: IQueryMutation;
   mutations: IQueryMutation;
   resolvers?: object;
 }
 
 interface IRootSchema {
-  types: string[];
+  typeDefs: string[];
   queries: string[];
   mutations: string[];
   resolvers: {
@@ -52,16 +52,17 @@ const buildResolver = (schema: ISchema): object => {
 const schemas: ISchema[] = [AuthorSchema, BookSchema];
 const rootSchema: IRootSchema = schemas.reduce(
   (builder, schema) => {
-    const { type, queries = {}, mutations = {}, resolvers = {} } = schema;
+    const { typeDef, queries, mutations } = schema;
+
     return {
-      types: [...builder.types, type],
+      typeDefs: [...builder.typeDefs, typeDef],
       queries: [...builder.queries, resolverDefinitionsToString(queries)],
       mutations: [...builder.mutations, resolverDefinitionsToString(mutations)],
       resolvers: merge(builder.resolvers, buildResolver(schema)),
     };
   },
   {
-    types: [],
+    typeDefs: [],
     queries: [],
     mutations: [],
     resolvers: {},
@@ -78,7 +79,7 @@ const typeDefs = `
     ${rootSchema.mutations.join('\n')}
   }
 
-  ${rootSchema.types.join('\n')}
+  ${rootSchema.typeDefs.join('\n')}
 
   schema {
     query: Query

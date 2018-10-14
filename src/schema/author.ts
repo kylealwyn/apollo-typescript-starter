@@ -1,6 +1,6 @@
 import db from '../database';
 
-export const type = `
+export const typeDef = `
 type Author {
   id: ID!,
   firstName: String,
