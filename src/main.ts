@@ -1,5 +1,5 @@
-import Server from './server';
 import Database from './database';
+import Server from './server';
 
 Database.connect();
 Server.start();

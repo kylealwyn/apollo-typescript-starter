@@ -1,5 +1,5 @@
-import { merge } from 'lodash';
 import { makeExecutableSchema } from 'apollo-server';
+import { merge } from 'lodash';
 import * as schemas from './schemas';
 
 const BaseQuery = `

@@ -1,5 +1,5 @@
-import { merge } from 'lodash';
 import Knex from 'knex';
+import { merge } from 'lodash';
 import knexfile from '../knexfile';
 
 class Database {

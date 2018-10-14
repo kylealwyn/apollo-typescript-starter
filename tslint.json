@@ -5,7 +5,6 @@
     "tslint-plugin-prettier"
   ],
   "rules": {
-    "ordered-imports": false,
     "no-submodule-imports": false,
     "object-literal-sort-keys": false,
     "member-ordering": false,
