@@ -1,4 +1,27 @@
 {
+  "name": "apollo-typescript-starter",
+  "version": "1.0.0",
+  "description": "Boilerplate project to get up and running with Apollo Server, GraphQL, Typescript and Postgres",
+  "author": "Kyle Alwyn <kjalwyn@gmail.com>",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 8",
+    "npm": ">= 5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/kylealwyn/apollo-typescript-starter.git"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "graphql",
+    "typescript",
+    "apollo",
+    "apollo-server",
+    "boilerplate",
+    "postgres"
+  ],
   "scripts": {
     "start": "nodemon",
     "debug": "nodemon",
