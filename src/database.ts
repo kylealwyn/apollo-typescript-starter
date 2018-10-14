@@ -1,10 +1,10 @@
-import * as _ from 'lodash';
-import * as Knex from 'knex';
-import * as knexfile from '../knexfile';
+import _ from 'lodash';
+import Knex from 'knex';
+import knexfile from '../knexfile';
 
 class Database {
   private knexInstance: Knex;
-  private config: Object;
+  private config: object;
 
   public connect(options = {}): void {
     if (this.knexInstance) {

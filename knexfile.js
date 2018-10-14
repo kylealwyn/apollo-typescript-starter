@@ -10,9 +10,9 @@ const defaults = {
   connection: {
     user: connection.user || 'root',
     password: connection.password || '',
-    host: connection.host,
+    host: connection.hosts[0].name,
     port: connection.port || 5432,
-    database: connection.segments[0],
+    database: connection.path[0],
   },
   migrations: {
     directory: `${__dirname}/db/migrations`,

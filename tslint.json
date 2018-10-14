@@ -1,0 +1,23 @@
+{
+  "extends": [
+    "tslint:latest",
+    "tslint-config-prettier",
+    "tslint-plugin-prettier"
+  ],
+  "rules": {
+    "ordered-imports": false,
+    "no-submodule-imports": false,
+    "object-literal-sort-keys": false,
+    "member-ordering": false,
+    "member-access": false,
+    "prettier": [true, {
+      "printWidth": 120,
+      "semi": true,
+      "useTabs": false,
+      "singleQuote": true,
+      "trailingComma": "es5",
+      "bracketSpacing": true,
+      "jsxBracketSameLine": true
+    }]
+  }
+}

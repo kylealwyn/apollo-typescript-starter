@@ -1,26 +1,26 @@
 import * as _ from 'lodash';
-import { makeExecutableSchema } from 'graphql-tools';
+import { makeExecutableSchema } from 'apollo-server';
 import { getDirectories } from '../utils';
 
-interface QueryMutation {
-  [name: string]: Resolver;
-}
-
-interface Resolver {
+interface IResolver {
   definition: string;
-  resolve: Function;
+  resolve: () => void;
 }
 
-interface Schema {
+interface IQueryMutation {
+  [name: string]: IResolver;
+}
+
+interface ISchema {
   type: string;
-  queries: QueryMutation;
-  mutations: QueryMutation;
-  resolvers?: Object;
+  queries: IQueryMutation;
+  mutations: IQueryMutation;
+  resolvers?: object;
 }
 
 const directories = getDirectories(__dirname);
 
-const schemas: Array<Schema> = directories.reduce((schemaList, directory) => {
+const schemas: ISchema[] = directories.reduce((schemaList, directory) => {
   const schema = require(directory); // eslint-disable-line
   return [...schemaList, schema];
 }, []);
@@ -30,7 +30,7 @@ const resolverDefinitionsToString = (resolvers = {}): string =>
     .map(({ definition }) => definition)
     .join('\n');
 
-const buildResolver = (schema: Schema): Object => {
+const buildResolver = (schema: ISchema): Object => {
   const { queries = {}, mutations = {}, resolvers = {} } = schema;
 
   return {
