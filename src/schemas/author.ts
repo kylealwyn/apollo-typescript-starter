@@ -1,13 +1,13 @@
 import db from '../database';
 
 export const typeDef = `
-type Author {
-  id: ID!,
-  firstName: String,
-  lastName: String
+  type Author {
+    id: ID!
+    firstName: String
+    lastName: String
 
-  books(limit: Int, offset: Int): [Book]
-}
+    books(limit: Int, offset: Int): [Book]
+  }
 `;
 
 export const queries = [

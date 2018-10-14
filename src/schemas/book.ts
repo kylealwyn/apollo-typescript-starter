@@ -1,11 +1,11 @@
 import db from '../database';
 
 export const typeDef = `
-type Book {
-  id: ID!,
-  title: String
-  author: Author
-}
+  type Book {
+    id: ID!
+    title: String
+    author: Author
+  }
 `;
 
 export const queries = [
