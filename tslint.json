@@ -11,13 +11,12 @@
     "member-ordering": false,
     "member-access": false,
     "prettier": [true, {
-      "printWidth": 120,
+      "printWidth": 100,
       "semi": true,
       "useTabs": false,
       "singleQuote": true,
       "trailingComma": "es5",
-      "bracketSpacing": true,
-      "jsxBracketSameLine": true
+      "bracketSpacing": true
     }]
   }
 }

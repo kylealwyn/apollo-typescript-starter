@@ -6,7 +6,7 @@ class Database {
   private knexInstance: Knex;
   private config: object;
 
-  public connect(options = {}): void {
+  connect(options = {}): void {
     if (this.knexInstance) {
       return;
     }
@@ -14,7 +14,7 @@ class Database {
     this.knexInstance = Knex(this.config);
   }
 
-  public get query(): Knex {
+  get query(): Knex {
     if (!this.knexInstance) {
       this.connect();
     }
@@ -22,7 +22,7 @@ class Database {
     return this.knexInstance;
   }
 
-  public close(done): void {
+  close(done): void {
     if (!this.knexInstance) {
       done();
       return;
