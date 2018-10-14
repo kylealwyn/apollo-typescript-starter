@@ -23,6 +23,7 @@
     "@types/body-parser": "^1.17.0",
     "@types/express": "^4.16.0",
     "@types/knex": "^0.14.26",
+    "@types/lodash": "^4.14.117",
     "@types/node": "^10.11.7",
     "ava": "^0.25.0",
     "nodemon": "^1.18.4",

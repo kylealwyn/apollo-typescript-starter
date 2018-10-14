@@ -1,10 +1,11 @@
-import * as _ from 'lodash';
+import { merge } from 'lodash';
 import { makeExecutableSchema } from 'apollo-server';
-import { getDirectories } from '../utils';
+import * as AuthorSchema from './author';
+import * as BookSchema from './book';
 
 interface IResolver {
   definition: string;
-  resolve: () => void;
+  resolve: (root: any, args?: any, context?: any, info?: any) => any;
 }
 
 interface IQueryMutation {
@@ -18,45 +19,51 @@ interface ISchema {
   resolvers?: object;
 }
 
-const directories = getDirectories(__dirname);
-
-const schemas: ISchema[] = directories.reduce((schemaList, directory) => {
-  const schema = require(directory); // eslint-disable-line
-  return [...schemaList, schema];
-}, []);
+interface IRootSchema {
+  types: string[];
+  queries: string[];
+  mutations: string[];
+  resolvers: {
+    [key: string]: any;
+  };
+}
 
 const resolverDefinitionsToString = (resolvers = {}): string =>
   Object.values(resolvers)
     .map(({ definition }) => definition)
     .join('\n');
 
-const buildResolver = (schema: ISchema): Object => {
+const buildResolver = (schema: ISchema): object => {
   const { queries = {}, mutations = {}, resolvers = {} } = schema;
 
   return {
-    Query: Object.entries(queries).reduce((acc, [method, resolver]) => {
-      acc[method] = resolver;
+    Query: Object.entries(queries).reduce((acc, [method, { resolve }]) => {
+      acc[method] = resolve;
       return acc;
     }, {}),
-    Mutation: Object.entries(mutations).reduce((acc, [method, resolver]) => {
-      acc[method] = resolver;
+    Mutation: Object.entries(mutations).reduce((acc, [method, { resolve }]) => {
+      acc[method] = resolve;
       return acc;
     }, {}),
     ...resolvers,
   };
 };
 
-const { types, queries, mutations, resolvers } = schemas.reduce(
-  (builder, schema) => ({
-    types: `${builder.types}\n${schema.type}`,
-    queries: `${builder.queries}\n${resolverDefinitionsToString(schema.queries)}`,
-    mutations: `${builder.mutations}\n${resolverDefinitionsToString(schema.mutations)}`,
-    resolvers: _.merge(builder.resolvers, buildResolver(schema)),
-  }),
+const schemas: ISchema[] = [AuthorSchema, BookSchema];
+const rootSchema: IRootSchema = schemas.reduce(
+  (builder, schema) => {
+    const { type, queries = {}, mutations = {}, resolvers = {} } = schema;
+    return {
+      types: [...builder.types, type],
+      queries: [...builder.queries, resolverDefinitionsToString(queries)],
+      mutations: [...builder.mutations, resolverDefinitionsToString(mutations)],
+      resolvers: merge(builder.resolvers, buildResolver(schema)),
+    };
+  },
   {
-    types: '',
-    queries: '',
-    mutations: '',
+    types: [],
+    queries: [],
+    mutations: [],
     resolvers: {},
   }
 );
@@ -64,14 +71,14 @@ const { types, queries, mutations, resolvers } = schemas.reduce(
 // Construct the schema
 const typeDefs = `
   type Query {
-    ${queries}
+    ${rootSchema.queries.join('\n')}
   }
 
   type Mutation {
-    ${mutations}
+    ${rootSchema.mutations.join('\n')}
   }
 
-  ${types}
+  ${rootSchema.types.join('\n')}
 
   schema {
     query: Query
@@ -82,5 +89,5 @@ const typeDefs = `
 // Now bind it with resolers
 export default makeExecutableSchema({
   typeDefs,
-  resolvers,
+  resolvers: rootSchema.resolvers,
 });

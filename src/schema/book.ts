@@ -1,4 +1,4 @@
-import db from '../../database';
+import db from '../database';
 
 export const type = `
 type Book {
@@ -45,7 +45,7 @@ export const mutations = {
 
 export const resolvers = {
   Book: {
-    author(book): Object {
+    author(book) {
       return db
         .query('authors')
         .where({ id: book.authorId })
