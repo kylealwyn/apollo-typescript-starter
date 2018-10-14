@@ -19,9 +19,7 @@
     npm install
     ```
 
-1. Setup Postgres
-
-    Once configured, place your connection url in a `.env` file at the root of the repo. These variables will be automatically assigned to process.env when the application boots through [dotenv](https://github.com/motdotla/dotenv). Your .env file should look something like this:
+1. Next, ensure your local Postgres database is up and running. Once configured, place your connection url in a `.env` file at the root of the repo. These variables will be automatically assigned to process.env when the application boots through [dotenv](https://github.com/motdotla/dotenv). Your .env file should look something like this:
 
     ```
     DATABASE_URL=postgres://localhost/books
