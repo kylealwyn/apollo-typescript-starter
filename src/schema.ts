@@ -14,10 +14,9 @@ const BaseQuery = `
 
 const executableSchema = Object.values(schemas).reduce(
   (builder, schema) => {
-    return {
-      typeDefs: [...builder.typeDefs, schema.typeDef],
-      resolvers: merge(builder.resolvers, schema.resolvers),
-    };
+    builder.typeDefs = [...builder.typeDefs, schema.typeDef];
+    builder.resolvers = merge(builder.resolvers, schema.resolvers);
+    return builder;
   },
   {
     typeDefs: [BaseQuery],
