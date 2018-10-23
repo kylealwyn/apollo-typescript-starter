@@ -10,8 +10,8 @@ const defaults = {
   connection: {
     user: connection.user || 'root',
     password: connection.password || '',
-    host: connection.hosts[0].name,
-    port: connection.port || 5432,
+    host: connection.hosts && connection.hosts[0].name,
+    port: (connection.hosts && connection.hosts[0].port) || 5432,
     database: connection.path[0],
   },
   migrations: {
